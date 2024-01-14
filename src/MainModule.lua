@@ -135,7 +135,6 @@ function diag.runDiagnostics()
 		table.insert(resultscode, 1)
 	else
 		addItem("no","This game is not published, publish it using <b>File > Publish to Roblox</b>.","red")
-		table.insert(resultscode, 0)
 	end
 	task.wait(2)
 	status.Text = status.Text .. " Done"
@@ -147,10 +146,9 @@ function diag.runDiagnostics()
 		if not unpublished then
 			addItem("yes","The creator of this game is a <b>user</b>.","green")
 		end
-		table.insert(resultscode, 1)
 	elseif game.CreatorType == Enum.CreatorType.Group then
 		addItem("yes","This game is a <b>group</b> game.","green")
-		table.insert(resultscode, 0)
+		table.insert(resultscode, 2)
 	else
 		addItem("no","An error occured while checking this game's creator type.","red")
 	end
@@ -163,19 +161,17 @@ function diag.runDiagnostics()
 	if game.CreatorType == Enum.CreatorType.User and not unpublished then
 		if marketplaceservice:UserOwnsGamePassAsync(game.CreatorId, 12447387) then
 			addItem("yes","The creator of this game owns the Turnstile gamepass.","green")
-			table.insert(resultscode, 1)
+			table.insert(resultscode, "U")
 		else
 			addItem("warn","The creator of this game does not own the Turnstile gamepass.","yellow")
-			table.insert(resultscode, 0)
 		end
 	elseif game.CreatorType == Enum.CreatorType.Group then
 		local groupinfo = groupservice:GetGroupInfoAsync(game.CreatorId)
 		if marketplaceservice:UserOwnsGamePassAsync(groupinfo.Owner.Id, 12447387) then
 			addItem("yes","The group owner owns the Turnstile gamepass.","green")
-			table.insert(resultscode, 1)
+			table.insert(resultscode, "T")
 		else
 			addItem("warn","The group owner does not own the Turnstile gamepass.","yellow")
-			table.insert(resultscode, 0)
 		end
 	else
 		if game.CreatorId ~= 998796 and game.CreatorId ~= 0 and game.CreatorId ~= nil then
@@ -193,19 +189,17 @@ function diag.runDiagnostics()
 	if game.CreatorType == Enum.CreatorType.User and not unpublished then
 		if marketplaceservice:UserOwnsGamePassAsync(game.CreatorId, 17531859) then
 			addItem("yes","The creator of this game owns the AutoPro gamepass.","green")
-			table.insert(resultscode, 1)
+			table.insert(resultscode, "A")
 		else
 			addItem("warn","The creator of this game does not own the AutoPro gamepass.","yellow")
-			table.insert(resultscode, 0)
 		end
 	elseif game.CreatorType == Enum.CreatorType.Group then
 		local groupinfo = groupservice:GetGroupInfoAsync(game.CreatorId)
 		if marketplaceservice:UserOwnsGamePassAsync(groupinfo.Owner.Id, 17531859) then
 			addItem("yes","The group owner owns the AutoPro gamepass.","green")
-			table.insert(resultscode, 1)
+			table.insert(resultscode, "B")
 		else
 			addItem("warn","The group owner does not own the AutoPro gamepass.","yellow")
-			table.insert(resultscode, 0)
 		end
 	else
 		if game.CreatorId ~= 998796 and game.CreatorId ~= 0 and game.CreatorId ~= nil then
@@ -222,7 +216,7 @@ function diag.runDiagnostics()
 	status.Text = "Checking HTTP Requests..."
 	if game.HttpService.HttpEnabled == true then
 		addItem("httpon","HTTP Requests are enabled.","green")
-		table.insert(resultscode, 1)
+		table.insert(resultscode, 3)
 	else
 		addItem("httpoff","HTTP Requests are not enabled.","red")
 		ButtonState = {"HTTP",nil}
@@ -238,9 +232,8 @@ function diag.runDiagnostics()
 			addItem("info","The user granted this tool HTTPServices permissions.","blue")
 			addItem("info","Whitehill Diagnostics has toggled HTTP Requests.","blue")
 			addItem("httpon","HTTP Requests are now enabled.","green")
-			table.insert(resultscode, 1)
+			table.insert(resultscode, 4)
 		elseif ButtonState[2] == false then
-			table.insert(resultscode, 0)
 		end
 	end
 	task.wait(2)
